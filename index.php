@@ -1,54 +1,29 @@
 <?php
 
-echo "isset(S_GET['password_length']): " . isset($_GET['password_length']);
-// echo "<br/>";
-// echo "strlen(S_GET['password_length']): ". strlen($_GET['password_length']) ?? 0;
-echo "<br/>";
 
-
-
-// $password_length = $_GET['password_length'] ?? null;
-// $password_length = isset($_GET['password_length']) ? $_GET['password_length'] : null;
 if (isset($_GET['password_length'])) {
     $password_length = $_GET['password_length'];
-    echo "<br/>";
-    echo "password_length appena settato: ". $password_length;
-    echo "<br/>";
-    echo "isset(password_length): ". isset($password_length);
 };
 
 
-
-echo "<br/>";
-echo "<br/>";
-// if (isset($_GET['password_length']) && strlen($_GET['password_length']) > 0) {
-// if ($password_length) {
-if (isset($password_length)) {
-    echo "<br/>";
-    echo "strlen(S_GET['password_length']): " . strlen($_GET['password_length']);
-
-    $password_length = $_GET['password_length'];
-    echo "password_length 1: $password_length";
-    var_dump($password_length);
-
+if (isset($password_length) && $password_length > 0) {
     $generated_password = generate_password($password_length + 0);
 };
 
 
 function generate_password (int $password_length) {
-    echo "password_length ricevuta in funzione generate_password: $password_length";
-    var_dump($password_length);
-    $generated_password = "TEST PW";
-    echo "Password generated $generated_password";
+    $generated_password = "";
+    $possible_characters = "ABHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    $min = 1;
+    $max = strlen($possible_characters) - 1;
+    do {
+        $random_character = $possible_characters[rand($min, $max)];
+        $generated_password .= $random_character;
+    } while (strlen($generated_password) < $password_length);
+
     return $generated_password;
 };
 
-
-if (isset($generated_password)) {
-    echo "<br/>";
-    echo "generated_password outside:";
-    var_dump($generated_password);
-};
 
 
 
@@ -70,7 +45,7 @@ if (isset($generated_password)) {
 
     <section class="py-5">
         <div class="container">
-            <div class="row">
+            <div class="row g-3">
                 <div class="col-12">
                     <h1 class="text-center">
                         Strong Password Generator
@@ -78,12 +53,12 @@ if (isset($generated_password)) {
                 </div>
 
                 <div class="col-12">
-                    <form>
+                    <form class="card p-3">
                         <div class="mb-3">
                             <label for="password_length" class="form-label">
                                 Lunghezza password:
                             </label>
-                            <input name="password_length" type="number" class="form-control" id="password_length" value="<?php echo $password_length ?? 0 ?>">
+                            <input name="password_length" value="<?php echo $password_length ?? 0 ?>" type="number" class="form-control" id="password_length" min="1" max="10">
                         </div>
 
                         <div class="mb3">
@@ -104,7 +79,7 @@ if (isset($generated_password)) {
                         <b>
                             <?php
                                 if (isset($generated_password)) {
-                                    echo "$generated_password";
+                                    echo "$generated_password (" . strlen($generated_password) . ")";
                                 } else {
                                     echo "No password generated";
                                 };
