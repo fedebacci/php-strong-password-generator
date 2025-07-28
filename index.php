@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 
 require_once './variables_getter.php';
 require_once './functions.php';
@@ -7,6 +8,8 @@ require_once './functions.php';
 
 if (isset($password_length) && $password_length > 0) {
     $generated_password = generate_password($password_length);
+    $_SESSION['generated_password'] = $generated_password;
+    header('Location: ./results.php');
 };
 
 
@@ -54,6 +57,7 @@ if (isset($password_length) && $password_length > 0) {
                                 Invia
                             </button>
                             <!-- <button action="index.php" class="btn btn-secondary"> -->
+                            <!-- <button onclick="console.log(window.location); // window.location = 'http://localhost:8080/boolean/esercizi/2%20php-strong-password-generator/'" class="btn btn-secondary"> -->
                             <button class="btn btn-secondary disabled">
                                 Annulla
                             </button>
@@ -62,17 +66,8 @@ if (isset($password_length) && $password_length > 0) {
                 </div>
 
                 <div class="col-12">
-                    <div class="alert alert-info">
-                        Your new password is: 
-                        <b>
-                            <?php
-                                if (isset($generated_password)) {
-                                    echo "$generated_password (" . strlen($generated_password) . ")";
-                                } else {
-                                    echo "No password generated";
-                                };
-                            ?>
-                        </b>
+                    <div class="alert alert-secondary">
+                        Set the new password length and click "Invia" to generate a new password of that length, including all characters from the english alphabet both in uppercase and in lowercase form.
                     </div>
                 </div>
 
