@@ -1,3 +1,59 @@
+<?php
+
+echo "isset(S_GET['password_length']): " . isset($_GET['password_length']);
+// echo "<br/>";
+// echo "strlen(S_GET['password_length']): ". strlen($_GET['password_length']) ?? 0;
+echo "<br/>";
+
+
+
+// $password_length = $_GET['password_length'] ?? null;
+// $password_length = isset($_GET['password_length']) ? $_GET['password_length'] : null;
+if (isset($_GET['password_length'])) {
+    $password_length = $_GET['password_length'];
+    echo "<br/>";
+    echo "password_length appena settato: ". $password_length;
+    echo "<br/>";
+    echo "isset(password_length): ". isset($password_length);
+};
+
+
+
+echo "<br/>";
+echo "<br/>";
+// if (isset($_GET['password_length']) && strlen($_GET['password_length']) > 0) {
+// if ($password_length) {
+if (isset($password_length)) {
+    echo "<br/>";
+    echo "strlen(S_GET['password_length']): " . strlen($_GET['password_length']);
+
+    $password_length = $_GET['password_length'];
+    echo "password_length 1: $password_length";
+    var_dump($password_length);
+
+    $generated_password = generate_password($password_length + 0);
+};
+
+
+function generate_password (int $password_length) {
+    echo "password_length ricevuta in funzione generate_password: $password_length";
+    var_dump($password_length);
+    $generated_password = "TEST PW";
+    echo "Password generated $generated_password";
+    return $generated_password;
+};
+
+
+if (isset($generated_password)) {
+    echo "<br/>";
+    echo "generated_password outside:";
+    var_dump($generated_password);
+};
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +76,44 @@
                         Strong Password Generator
                     </h1>
                 </div>
+
+                <div class="col-12">
+                    <form>
+                        <div class="mb-3">
+                            <label for="password_length" class="form-label">
+                                Lunghezza password:
+                            </label>
+                            <input name="password_length" type="number" class="form-control" id="password_length" value="<?php echo $password_length ?? 0 ?>">
+                        </div>
+
+                        <div class="mb3">
+                            <button class="btn btn-primary">
+                                Invia
+                            </button>
+                            <!-- <button action="index.php" class="btn btn-secondary"> -->
+                            <button class="btn btn-secondary disabled">
+                                Annulla
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        Your new password is: 
+                        <b>
+                            <?php
+                                if (isset($generated_password)) {
+                                    echo "$generated_password";
+                                } else {
+                                    echo "No password generated";
+                                };
+                            ?>
+                        </b>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </section>
